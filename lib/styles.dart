@@ -83,3 +83,4 @@ class MyStyles {
   // trying another color
   // static Color displayBackgroundColor = Colors.deepOrange;
 }
+
