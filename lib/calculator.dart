@@ -13,6 +13,9 @@ class _CalculatorState extends State<Calculator> {
 
   List<String> toCalculate = [];
 
+  bool equalsPressed = false;
+  bool autoEquals = false;
+
   void addValue(String value) {
     // check if last value is ".", "%" or the las number is a decimal (includes ".")
     if (toCalculate.length >= 24) {
@@ -110,6 +113,10 @@ class _CalculatorState extends State<Calculator> {
     }
     toCalculate.add(value);
     setState(() {});
+    if (equalsPressed == false) {
+      autoEquals = true;
+      calculate();
+    }
   }
 
   void eraseLastValue() {
@@ -123,6 +130,7 @@ class _CalculatorState extends State<Calculator> {
     if (toCalculate.isNotEmpty) {
       toCalculate.clear();
     } else {
+      equalsPressed = false;
       displayValue = 0;
     }
     setState(() {});
@@ -305,9 +313,9 @@ class _CalculatorState extends State<Calculator> {
                 child: Text(
                   displayText(),
                   textAlign: TextAlign.right,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 48,
-                    color: Colors.white,
+                    color: autoEquals ? Colors.grey[400] : Colors.white,
                   ),
                 ),
               ),
@@ -543,6 +551,8 @@ class _CalculatorState extends State<Calculator> {
   Widget buildResultButton() {
     return ElevatedButton(
       onPressed: () {
+        equalsPressed = true;
+        autoEquals = false;
         calculate();
       },
       style: MyStyles.resultButtonStyle(context),
