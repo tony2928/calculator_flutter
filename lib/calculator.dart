@@ -123,6 +123,7 @@ class _CalculatorState extends State<Calculator> {
   void eraseLastValue() {
     if (toCalculate.isNotEmpty) {
       toCalculate.removeLast();
+      setState(() {});
       if (equalsPressed == false) {
         calculate();
       }
@@ -133,6 +134,7 @@ class _CalculatorState extends State<Calculator> {
   void clearAll() {
     if (toCalculate.isNotEmpty) {
       toCalculate.clear();
+      setState(() {});
       if (equalsPressed == false) {
         calculate();
       }
