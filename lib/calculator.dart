@@ -123,6 +123,9 @@ class _CalculatorState extends State<Calculator> {
   void eraseLastValue() {
     if (toCalculate.isNotEmpty) {
       toCalculate.removeLast();
+      if (equalsPressed == false) {
+        calculate();
+      }
     }
     setState(() {});
   }
@@ -130,6 +133,9 @@ class _CalculatorState extends State<Calculator> {
   void clearAll() {
     if (toCalculate.isNotEmpty) {
       toCalculate.clear();
+      if (equalsPressed == false) {
+        calculate();
+      }
     } else {
       equalsPressed = false;
       displayValue = 0;
