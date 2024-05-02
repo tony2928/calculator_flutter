@@ -123,18 +123,24 @@ class _CalculatorState extends State<Calculator> {
   void eraseLastValue() {
     if (toCalculate.isNotEmpty) {
       toCalculate.removeLast();
-      setState(() {});
+      setState(() {
+        toCalculate = toCalculate;
+      });
       if (equalsPressed == false) {
         calculate();
       }
     }
-    setState(() {});
+    setState(() {
+      toCalculate = toCalculate;
+    });
   }
 
   void clearAll() {
     if (toCalculate.isNotEmpty) {
       toCalculate.clear();
-      setState(() {});
+      setState(() {
+        toCalculate = toCalculate;
+      });
       if (equalsPressed == false) {
         calculate();
       }
@@ -142,11 +148,12 @@ class _CalculatorState extends State<Calculator> {
       equalsPressed = false;
       displayValue = 0;
     }
-    setState(() {});
+    setState(() {
+      toCalculate = toCalculate;
+    });
   }
 
   void calculate() {
-    displayValue = 0;
     String expression = toCalculate.join('');
 
     //
