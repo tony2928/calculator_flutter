@@ -156,6 +156,13 @@ class _CalculatorState extends State<Calculator> {
   void calculate() {
     String expression = toCalculate.join('');
 
+    if (expression == "") {
+      setState(() {
+        displayValue = 0;
+      });
+      return;
+    }
+
     //
     expression = expression.replaceAll('×', '*');
     expression = expression.replaceAll('÷', '/');
