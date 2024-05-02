@@ -140,16 +140,23 @@ class _CalculatorState extends State<Calculator> {
     displayValue = 0;
     String expression = toCalculate.join('');
 
-    Parser p = Parser();
-    Expression exp = p.parse(expression);
-
-    double eval = exp.evaluate(exp)
-
-
     //
     expression = expression.replaceAll('×', '*');
     expression = expression.replaceAll('÷', '/');
 
+    Parser p = Parser();
+    Expression exp = p.parse(expression);
+
+    double result = exp.evaluate(EvaluationType.REAL, ContextModel());
+
+    displayValue = result;
+
+    setState(() {});
+    
+    return;
+
+    //
+    
     for (int i = 0; i < expression.length; i++) {
       if (expression[i] == '+' ||
           expression[i] == '-' ||
