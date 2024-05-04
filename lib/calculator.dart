@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:math_expressions/math_expressions.dart';
 import 'package:calculator/styles.dart';
 import 'package:flutter/material.dart';
@@ -168,108 +170,120 @@ class _CalculatorState extends State<Calculator> {
     expression = expression.replaceAll('÷', '/');
 
     Parser p = Parser();
-    Expression exp = p.parse(expression);
+    // Expression exp = p.parse(expression);
 
-    double result = exp.evaluate(EvaluationType.REAL, ContextModel());
+    try {
+      Expression exp = p.parse(expression);
+      double result = exp.evaluate(EvaluationType.REAL, ContextModel());
 
-    displayValue = result;
-
-    setState(() {});
-    
-    return;
-
-    //
-    
-    for (int i = 0; i < expression.length; i++) {
-      if (expression[i] == '+' ||
-          expression[i] == '-' ||
-          expression[i] == '*' ||
-          expression[i] == '/' ||
-          expression[i] == '%') {
-        String left = expression.substring(0, i);
-        String right = expression.substring(i + 1);
-        double leftValue = double.parse(left);
-        double rightValue = 0.0;
-
-        if (expression[i] == '+' ||
-            expression[i] == '-' ||
-            expression[i] == '*' ||
-            expression[i] == '/') {
-          for (int j = i + 1; j < expression.length; j++) {
-            if (expression[j] == '+' ||
-                expression[j] == '-' ||
-                expression[j] == '*' ||
-                expression[j] == '/') {
-              right = expression.substring(i + 1, j);
-              rightValue = double.parse(right);
-              break;
-            }
-            if (expression[j] == '%') {
-              right = expression.substring(i + 1, j);
-              rightValue = double.parse(right) / 100;
-              break;
-            }
-            // if (expression[j] == '√') {
-            //   right = expression.substring(i + 1, j);
-            //   rightValue = double.parse(right);
-            //   rightValue = sqrt(rightValue);
-            //   break;
-            // }
-            if (j == expression.length - 1) {
-              right = expression.substring(i + 1);
-              rightValue = double.parse(right);
-            }
-          }
-        }
-
-        // if (expression[i] == '%') {
-        //   // update the value to be a percentage (divide by 100)
-        //   rightValue = rightValue / 100;
-        //   expression = leftValue.toString() + expression.substring(i + 1);
-        // }
-        bool expressionCheck() {
-          if (i >= expression.length) {
-            return true;
-          }
-          return false;
-        }
-
-        if (expressionCheck() == true) {
-          break;
-        }
-        if (expression[i] == '+') {
-          displayValue = leftValue + rightValue;
-          expression = displayValue.toString() + expression.substring(i + 1);
-        }
-        if (expressionCheck() == true) {
-          break;
-        }
-        if (expression[i] == '-') {
-          displayValue = leftValue - rightValue;
-          expression = displayValue.toString() + expression.substring(i + 1);
-        }
-        if (expressionCheck() == true) {
-          break;
-        }
-        if (expression[i] == '*') {
-          displayValue = leftValue * rightValue;
-          expression = displayValue.toString() + expression.substring(i + 1);
-        }
-        if (expressionCheck() == true) {
-          break;
-        }
-        if (expression[i] == '/') {
-          displayValue = leftValue / rightValue;
-          expression = displayValue.toString() + expression.substring(i + 1);
-        }
+      displayValue = result;
+    } catch (e) {
+      if (equalsPressed == true) {
+        displayValue = double.nan;
       }
     }
 
+    // double result = exp.evaluate(EvaluationType.REAL, ContextModel());
+
+    // displayValue = result;
+
     setState(() {});
+
+    return;
+
+    //
+
+    // for (int i = 0; i < expression.length; i++) {
+    //   if (expression[i] == '+' ||
+    //       expression[i] == '-' ||
+    //       expression[i] == '*' ||
+    //       expression[i] == '/' ||
+    //       expression[i] == '%') {
+    //     String left = expression.substring(0, i);
+    //     String right = expression.substring(i + 1);
+    //     double leftValue = double.parse(left);
+    //     double rightValue = 0.0;
+
+    //     if (expression[i] == '+' ||
+    //         expression[i] == '-' ||
+    //         expression[i] == '*' ||
+    //         expression[i] == '/') {
+    //       for (int j = i + 1; j < expression.length; j++) {
+    //         if (expression[j] == '+' ||
+    //             expression[j] == '-' ||
+    //             expression[j] == '*' ||
+    //             expression[j] == '/') {
+    //           right = expression.substring(i + 1, j);
+    //           rightValue = double.parse(right);
+    //           break;
+    //         }
+    //         if (expression[j] == '%') {
+    //           right = expression.substring(i + 1, j);
+    //           rightValue = double.parse(right) / 100;
+    //           break;
+    //         }
+    //         // if (expression[j] == '√') {
+    //         //   right = expression.substring(i + 1, j);
+    //         //   rightValue = double.parse(right);
+    //         //   rightValue = sqrt(rightValue);
+    //         //   break;
+    //         // }
+    //         if (j == expression.length - 1) {
+    //           right = expression.substring(i + 1);
+    //           rightValue = double.parse(right);
+    //         }
+    //       }
+    //     }
+
+    //     // if (expression[i] == '%') {
+    //     //   // update the value to be a percentage (divide by 100)
+    //     //   rightValue = rightValue / 100;
+    //     //   expression = leftValue.toString() + expression.substring(i + 1);
+    //     // }
+    //     bool expressionCheck() {
+    //       if (i >= expression.length) {
+    //         return true;
+    //       }
+    //       return false;
+    //     }
+
+    //     if (expressionCheck() == true) {
+    //       break;
+    //     }
+    //     if (expression[i] == '+') {
+    //       displayValue = leftValue + rightValue;
+    //       expression = displayValue.toString() + expression.substring(i + 1);
+    //     }
+    //     if (expressionCheck() == true) {
+    //       break;
+    //     }
+    //     if (expression[i] == '-') {
+    //       displayValue = leftValue - rightValue;
+    //       expression = displayValue.toString() + expression.substring(i + 1);
+    //     }
+    //     if (expressionCheck() == true) {
+    //       break;
+    //     }
+    //     if (expression[i] == '*') {
+    //       displayValue = leftValue * rightValue;
+    //       expression = displayValue.toString() + expression.substring(i + 1);
+    //     }
+    //     if (expressionCheck() == true) {
+    //       break;
+    //     }
+    //     if (expression[i] == '/') {
+    //       displayValue = leftValue / rightValue;
+    //       expression = displayValue.toString() + expression.substring(i + 1);
+    //     }
+    //   }
+    // }
+
+    // setState(() {});
   }
 
   String displayText() {
     if (displayValue.isNaN) {
+      equalsPressed = false;
       return 'Error';
     }
     if (displayValue.toString().endsWith('.0')) {
