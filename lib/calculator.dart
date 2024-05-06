@@ -1,4 +1,5 @@
 import 'package:math_expressions/math_expressions.dart';
+import 'package:vibration/vibration.dart';
 import 'package:calculator/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,10 @@ class _CalculatorState extends State<Calculator> {
   bool equalsPressed = false;
   bool autoEquals = false;
 
+  bool canVibrate = false;
+
   void addValue(String value) {
+    vibrate();
     // check if last value is ".", "%" or the las number is a decimal (includes ".")
     if (toCalculate.length >= 24) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -121,6 +125,7 @@ class _CalculatorState extends State<Calculator> {
   }
 
   void eraseLastValue() {
+    vibrate();
     if (toCalculate.isNotEmpty) {
       toCalculate.removeLast();
       setState(() {
@@ -136,6 +141,7 @@ class _CalculatorState extends State<Calculator> {
   }
 
   void clearAll() {
+    vibrate();
     if (toCalculate.isNotEmpty) {
       toCalculate.clear();
       setState(() {
@@ -306,6 +312,22 @@ class _CalculatorState extends State<Calculator> {
       }
     }
     return displayValue.toString();
+  }
+
+  void vibrate() {
+    if (canVibrate) {
+      Vibration.vibrate(duration: 10);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    hasVibrator();
+  }
+
+  void hasVibrator() async {
+    bool canVibrate = await Vibration.hasVibrator() ?? false;
   }
 
   @override
@@ -601,6 +623,7 @@ class _CalculatorState extends State<Calculator> {
   Widget buildResultButton() {
     return ElevatedButton(
       onPressed: () {
+        vibrate();
         equalsPressed = true;
         autoEquals = false;
         calculate();
